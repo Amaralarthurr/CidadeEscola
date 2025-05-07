@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urbia - Faculdade de Arquitetura São Paulo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'arq-red': '#F44336',
+                        'arq-blue': '#2196F3',
+                        'arq-yellow': '#FFEB3B',
+                        'arq-pink': '#F48FB1',
+                        'arq-green': '#92D050',
+                        'arq-cream': '#FEF9F3',
+                        'arq-dark': '#333333',
+                    },
+                    fontFamily: {
+                        'nunito': ['Nunito', 'sans-serif'],
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-inter bg-arq-cream text-arq-dark">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-10 h-10 bg-arq-red rounded-md flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                        </div>
+                        <span class="font-nunito font-bold text-2xl">Urbia</span>
+                    </div>
+                </div>
+                
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#inicio" class="font-nunito font-semibold hover:text-arq-red transition-colors">Início</a>
+                    <a href="#diferenciais" class="font-nunito font-semibold hover:text-arq-red transition-colors">Diferenciais</a>
+                    <a href="#aprenda" class="font-nunito font-semibold hover:text-arq-red transition-colors">Aprenda</a>
+                    <a href="#mapa" class="font-nunito font-semibold hover:text-arq-red transition-colors">Mapa</a>
+                    <a href="#preferencias" class="font-nunito font-semibold hover:text-arq-red transition-colors">Preferências</a>
+                    <a href="#recomendacao" class="font-nunito font-semibold hover:text-arq-red transition-colors">Recomendação</a>
+                </nav>
+                
+                <button id="menuButton" class="md:hidden text-arq-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Menu Mobile -->
+            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4">
+                <nav class="flex flex-col space-y-3">
+                    <a href="#inicio" class="font-nunito font-semibold hover:text-arq-red transition-colors">Início</a>
+                    <a href="#diferenciais" class="font-nunito font-semibold hover:text-arq-red transition-colors">Diferenciais</a>
+                    <a href="#aprenda" class="font-nunito font-semibold hover:text-arq-red transition-colors">Aprenda</a>
+                    <a href="#mapa" class="font-nunito font-semibold hover:text-arq-red transition-colors">Mapa</a>
+                    <a href="#preferencias" class="font-nunito font-semibold hover:text-arq-red transition-colors">Preferências</a>
+                    <a href="#recomendacao" class="font-nunito font-semibold hover:text-arq-red transition-colors">Recomendação</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Banner Principal com Vídeo -->
+    <section id="inicio" class="relative h-[80vh] overflow-hidden">
+        <div class="absolute inset-0 bg-black/40 z-10"></div>
+        <video class="absolute inset-0 w-full h-full object-cover" autoplay loop muted playsinline>
+            <source src="./videos/Paulista-main-bg.mp4" type="video/mp4">
+            Seu navegador não suporta vídeos HTML5.
+        </video>
+        <div class="relative z-20 container mx-auto px-4 h-full flex flex-col justify-center">
+            <h1 class="font-nunito font-bold text-4xl md:text-5xl lg:text-6xl text-white mb-4 max-w-3xl">
+                Explore São Paulo através da Arquitetura
+            </h1>
+            <p class="font-inter text-lg md:text-xl text-white max-w-2xl mb-8">
+                Descubra a riqueza arquitetônica da maior metrópole brasileira e aprenda enquanto explora a cidade.
+            </p>
+            <div>
+                <a href="#diferenciais" class="inline-block bg-arq-red hover:bg-red-600 text-white font-nunito font-bold py-3 px-6 rounded-lg transition-colors shadow-lg">
+                    Conheça nossos diferenciais
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diferenciais -->
+    <section id="diferenciais" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="font-nunito font-bold text-3xl md:text-4xl text-center mb-12">Nossos Diferenciais</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg transform hover:-translate-y-2 transition-transform duration-300">
+                    <div class="h-2 bg-arq-red"></div>
+                    <div class="p-6">
+                        <div class="w-16 h-16 rounded-full bg-arq-red/10 flex items-center justify-center mb-4 mx-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-arq-red" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-nunito font-bold text-xl text-center mb-3">Rotas Inteligentes</h3>
+                        <p class="text-gray-600 text-center">Economize tempo com trilhas otimizadas que conectam os principais pontos arquitetônicos da cidade.</p>
+                    </div>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg transform hover:-translate-y-2 transition-transform duration-300">
+                    <div class="h-2 bg-arq-blue"></div>
+                    <div class="p-6">
+                        <div class="w-16 h-16 rounded-full bg-arq-blue/10 flex items-center justify-center mb-4 mx-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-arq-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-nunito font-bold text-xl text-center mb-3">Gamificação</h3>
+                        <p class="text-gray-600 text-center">Ganhe XP e conquistas enquanto explora e aprende sobre a arquitetura paulistana.</p>
+                    </div>
+                </div>
+                
+                <!-- Card 3 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg transform hover:-translate-y-2 transition-transform duration-300">
+                    <div class="h-2 bg-arq-yellow"></div>
+                    <div class="p-6">
+                        <div class="w-16 h-16 rounded-full bg-arq-yellow/10 flex items-center justify-center mb-4 mx-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-arq-yellow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-nunito font-bold text-xl text-center mb-3">Navegação AR</h3>
+                        <p class="text-gray-600 text-center">Visualize projetos e informações em realidade aumentada enquanto caminha pela cidade.</p>
+                    </div>
+                </div>
+                
+                <!-- Card 4 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg transform hover:-translate-y-2 transition-transform duration-300">
+                    <div class="h-2 bg-arq-green"></div>
+                    <div class="p-6">
+                        <div class="w-16 h-16 rounded-full bg-arq-green/10 flex items-center justify-center mb-4 mx-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-arq-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-nunito font-bold text-xl text-center mb-3">Inclusão</h3>
+                        <p class="text-gray-600 text-center">Conteúdo acessível para todos, com recursos adaptados para diferentes necessidades.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Aprenda Jogando -->
+    <section id="aprenda" class="py-16 bg-arq-cream">
+        <div class="container mx-auto px-4">
+            <h2 class="font-nunito font-bold text-3xl md:text-4xl text-center mb-12">Aprenda Jogando</h2>
+            
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden max-w-4xl mx-auto">
+                <!-- Tabs -->
+                <div class="flex border-b">
+                    <button class="tab-button active flex-1 py-4 font-nunito font-bold text-center relative" data-tab="desafios">
+                        <span class="relative z-10">Desafios</span>
+                    </button>
+                    <button class="tab-button flex-1 py-4 font-nunito font-bold text-center relative" data-tab="conquistas">
+                        <span class="relative z-10">Conquistas</span>
+                    </button>
+                    <button class="tab-button flex-1 py-4 font-nunito font-bold text-center relative" data-tab="nivel">
+                        <span class="relative z-10">Nível</span>
+                    </button>
+                </div>
+                
+                <!-- Tab Content -->
+                <div class="p-6">
+                    <!-- Desafios -->
+                    <div id="desafios" class="tab-content active">
+                        <h3 class="font-nunito font-bold text-xl mb-4">Seus Desafios Pendentes</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <div class="w-8 h-8 rounded-full bg-arq-red/10 flex-shrink-0 flex items-center justify-center mr-3 mt-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-arq-red" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-nunito font-semibold text-lg">Explore 3 museus</h4>
+                                    <p class="text-gray-600">Visite e registre sua presença em 3 museus diferentes na cidade.</p>
+                                    <div class="mt-2 flex items-center">
+                                        <div class="w-full bg-gray-200 rounded-full h-2.5 mr-2">
+                                            <div class="bg-arq-red h-2.5 rounded-full" style="width: 33%"></div>
+                                        </div>
+                                        <span class="text-sm text-gray-600">1/3</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="w-8 h-8 rounded-full bg-arq-blue/10 flex-shrink-0 flex items-center justify-center mr-3 mt-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-arq-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-nunito font-semibold text-lg">Compartilhe 5 fotos</h4>
+                                    <p class="text-gray-600">Tire e compartilhe 5 fotos de diferentes edifícios arquitetônicos.</p>
+                                    <div class="mt-2 flex items-center">
+                                        <div class="w-full bg-gray-200 rounded-full h-2.5 mr-2">
+                                            <div class="bg-arq-blue h-2.5 rounded-full" style="width: 60%"></div>
+                                        </div>
+                                        <span class="text-sm text-gray-600">3/5</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="w-8 h-8 rounded-full bg-arq-green/10 flex-shrink-0 flex items-center justify-center mr-3 mt-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-arq-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-nunito font-semibold text-lg">Ande 5km</h4>
+                                    <p class="text-gray-600">Percorra 5km explorando a arquitetura da cidade a pé.</p>
+                                    <div class="mt-2 flex items-center">
+                                        <div class="w-full bg-gray-200 rounded-full h-2.5 mr-2">
+                                            <div class="bg-arq-green h-2.5 rounded-full" style="width: 80%"></div>
+                                        </div>
+                                        <span class="text-sm text-gray-600">4/5 km</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Conquistas -->
+                    <div id="conquistas" class="tab-content hidden">
+                        <h3 class="font-nunito font-bold text-xl mb-4">Suas Conquistas</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-arq-cream rounded-lg p-4 flex items-center">
+                                <div class="w-12 h-12 rounded-full bg-arq-yellow flex items-center justify-center mr-4 flex-shrink-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-nunito font-semibold">Explorador Iniciante</h4>
+                                    <p class="text-sm text-gray-600">Visitou 5 pontos arquitetônicos diferentes</p>
+                                </div>
+                            </div>
+                            <div class="bg-arq-cream rounded-lg p-4 flex items-center">
+                                <div class="w-12 h-12 rounded-full bg-arq-blue flex items-center justify-center mr-4 flex-shrink-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-nunito font-semibold">Fotógrafo Urbano</h4>
+                                    <p class="text-sm text-gray-600">Compartilhou 10 fotos de arquitetura</p>
+                                </div>
+                            </div>
+                            <div class="bg-arq-cream rounded-lg p-4 flex items-center">
+                                <div class="w-12 h-12 rounded-full bg-arq-red flex items-center justify-center mr-4 flex-shrink-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-nunito font-semibold">Estudioso da Arquitetura</h4>
+                                    <p class="text-sm text-gray-600">Completou 3 roteiros educativos</p>
+                                </div>
+                            </div>
+                            <div class="bg-arq-cream rounded-lg p-4 flex items-center">
+                                <div class="w-12 h-12 rounded-full bg-arq-green flex items-center justify-center mr-4 flex-shrink-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-nunito font-semibold">Maratonista Cultural</h4>
+                                    <p class="text-sm text-gray-600">Percorreu mais de 20km explorando a cidade</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Nível -->
+                    <div id="nivel" class="tab-content hidden">
+                        <div class="text-center mb-6">
+                            <div class="w-24 h-24 rounded-full bg-arq-blue flex items-center justify-center mx-auto mb-4">
+                                <span class="font-nunito font-bold text-3xl text-white">12</span>
+                            </div>
+                            <h3 class="font-nunito font-bold text-xl">Arquiteto Aprendiz</h3>
+                            <p class="text-gray-600">Seu nível atual</p>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-nunito font-semibold">Progresso para o nível 13</span>
+                                <span class="font-nunito font-semibold">750/1000 XP</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-4">
+                                <div class="bg-arq-blue h-4 rounded-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-arq-cream p-4 rounded-lg">
+                            <h4 class="font-nunito font-semibold mb-2">Próximas Recompensas</h4>
+                            <ul class="space-y-3">
+                                <li class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-arq-yellow/20 flex items-center justify-center mr-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-arq-yellow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-800">Acesso a roteiros exclusivos</span>
+                                        <div class="text-xs text-gray-500">Nível 13</div>
+                                    </div>
+                                </li>
+                                <li class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-arq-red/20 flex items-center justify-center mr-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-arq-red" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-800">Desconto em eventos de arquitetura</span>
+                                        <div class="text-xs text-gray-500">Nível 15</div>
+                                    </div>
+                                </li>
+                                <li class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-arq-blue/20 flex items-center justify-center mr-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-arq-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-800">Emblema de Explorador Avançado</span>
+                                        <div class="text-xs text-gray-500">Nível 20</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mapa Interativo -->
+    <section id="mapa" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="font-nunito font-bold text-3xl md:text-4xl text-center mb-4">Mapa Interativo</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-8">Explore a Avenida Paulista e descubra os principais pontos arquitetônicos desta importante via de São Paulo.</p>
+            
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden max-w-5xl mx-auto">
+                <div id="map" class="w-full h-[500px]"></div>
+                
+                <div class="p-6">
+                    <h3 class="font-nunito font-bold text-xl mb-4">Pontos de Interesse</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 rounded-full bg-arq-red flex items-center justify-center mr-3 flex-shrink-0">
+                                <span class="text-white font-bold">1</span>
+                            </div>
+                            <div>
+                                <h4 class="font-nunito font-semibold">MASP</h4>
+                                <p class="text-sm text-gray-600">Museu de Arte de São Paulo, projeto de Lina Bo Bardi.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 rounded-full bg-arq-blue flex items-center justify-center mr-3 flex-shrink-0">
+                                <span class="text-white font-bold">2</span>
+                            </div>
+                            <div>
+                                <h4 class="font-nunito font-semibold">Conjunto Nacional</h4>
+                                <p class="text-sm text-gray-600">Primeiro shopping center da cidade, projeto de David Libeskind.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 rounded-full bg-arq-yellow flex items-center justify-center mr-3 flex-shrink-0">
+                                <span class="text-white font-bold">3</span>
+                            </div>
+                            <div>
+                                <h4 class="font-nunito font-semibold">Japan House</h4>
+                                <p class="text-sm text-gray-600">Centro cultural contemporâneo, projeto de Kengo Kuma.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 rounded-full bg-arq-green flex items-center justify-center mr-3 flex-shrink-0">
+                                <span class="text-white font-bold">4</span>
+                            </div>
+                            <div>
+                                <h4 class="font-nunito font-semibold">IMS Paulista</h4>
+                                <p class="text-sm text-gray-600">Instituto Moreira Salles, projeto de Andrade Morettin.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 rounded-full bg-arq-pink flex items-center justify-center mr-3 flex-shrink-0">
+                                <span class="text-white font-bold">5</span>
+                            </div>
+                            <div>
+                                <h4 class="font-nunito font-semibold">Casa das Rosas</h4>
+                                <p class="text-sm text-gray-600">Mansão histórica em estilo clássico francês.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center mr-3 flex-shrink-0">
+                                <span class="text-white font-bold">6</span>
+                            </div>
+                            <div>
+                                <h4 class="font-nunito font-semibold">Edifício Itália</h4>
+                                <p class="text-sm text-gray-600">Arranha-céu projetado por Franz Heep.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Preferências de Acessibilidade -->
+    <section id="preferencias" class="py-16 bg-arq-cream">
+        <div class="container mx-auto px-4">
+            <h2 class="font-nunito font-bold text-3xl md:text-4xl text-center mb-4">Personalize Sua Experiência</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-8">Ajuste suas preferências para uma experiência personalizada de exploração arquitetônica.</p>
+            
+            <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="p-6 md:p-8">
+                    <form id="preferencesForm">
+                        <!-- Estilos Arquitetônicos -->
+                        <div class="mb-8">
+                            <h3 class="font-nunito font-bold text-xl mb-4">Seus Interesses Arquitetônicos</h3>
+                            <p class="text-gray-600 mb-4">Selecione os estilos arquitetônicos que mais te interessam:</p>
+                            
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                <label class="flex items-center space-x-2 p-3 border rounded-lg hover:bg-arq-cream/30 transition cursor-pointer">
+                                    <input type="checkbox" name="estilo" value="modernismo" class="w-4 h-4 accent-arq-red">
+                                    <span>Modernismo</span>
+                                </label>
+                                <label class="flex items-center space-x-2 p-3 border rounded-lg hover:bg-arq-cream/30 transition cursor-pointer">
+                                    <input type="checkbox" name="estilo" value="colonial" class="w-4 h-4 accent-arq-red">
+                                    <span>Colonial</span>
+                                </label>
+                                <label class="flex items-center space-x-2 p-3 border rounded-lg hover:bg-arq-cream/30 transition cursor-pointer">
+                                    <input type="checkbox" name="estilo" value="contemporaneo" class="w-4 h-4 accent-arq-red">
+                                    <span>Contemporâneo</span>
+                                </label>
+                                <label class="flex items-center space-x-2 p-3 border rounded-lg hover:bg-arq-cream/30 transition cursor-pointer">
+                                    <input type="checkbox" name="estilo" value="brutalista" class="w-4 h-4 accent-arq-red">
+                                    <span>Brutalista</span>
+                                </label>
+                                <label class="flex items-center space-x-2 p-3 border rounded-lg hover:bg-arq-cream/30 transition cursor-pointer">
+                                    <input type="checkbox" name="estilo" value="neoclassico" class="w-4 h-4 accent-arq-red">
+                                    <span>Neoclássico</span>
+                                </label>
+                                <label class="flex items-center space-x-2 p-3 border rounded-lg hover:bg-arq-cream/30 transition cursor-pointer">
+                                    <input type="checkbox" name="estilo" value="ecletico" class="w-4 h-4 accent-arq-red">
+                                    <span>Eclético</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Tipos de Locais -->
+                        <div class="mb-8">
+                            <h3 class="font-nunito font-bold text-xl mb-4">Tipos de Locais</h3>
+                            <p class="text-gray-600 mb-4">Quais locais você prefere explorar:</p>
+                            
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                <label class="flex items-center space-x-2 p-3 border rounded-lg hover:bg-arq-cream/30 transition cursor-pointer">
+                                    <input type="checkbox" name="local" value="museus" class="w-4 h-4 accent-arq-blue">
+                                    <span>Museus</span>
+                                </label>
+                                <label class="flex items-center space-x-2 p-3 border rounded-lg hover:bg-arq-cream/30 transition cursor-pointer">
+                                    <input type="checkbox" name="local" value="edificios" class="w-4 h-4 accent-arq-blue">
+                                    <span>Edifícios</span>
+                                </label>
+                                <label class="flex items-center space-x-2 p-3 border rounded-lg hover:bg-arq-cream/30 transition cursor-pointer">
+                                    <input type="checkbox" name="local" value="pracas" class="w-4 h-4 accent-arq-blue">
+                                    <span>Praças</span>
+                                </label>
+                                <label class="flex items-center space-x-2 p-3 border rounded-lg hover:bg-arq-cream/30 transition cursor-pointer">
+                                    <input type="checkbox" name="local" value="monumentos" class="w-4 h-4 accent-arq-blue">
+                                    <span>Monumentos</span>
+                                </label>
+                                <label class="flex items-center space-x-2 p-3 border rounded-lg hover:bg-arq-cream/30 transition cursor-pointer">
+                                    <input type="checkbox" name="local" value="igrejas" class="w-4 h-4 accent-arq-blue">
+                                    <span>Igrejas</span>
+                                </label>
+                                <label class="flex items-center space-x-2 p-3 border rounded-lg hover:bg-arq-cream/30 transition cursor-pointer">
+                                    <input type="checkbox" name="local" value="parques" class="w-4 h-4 accent-arq-blue">
+                                    <span>Parques</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Distância Máxima -->
+                        <div class="mb-8">
+                            <h3 class="font-nunito font-bold text-xl mb-4">Distância Máxima</h3>
+                            <p class="text-gray-600 mb-4">Qual a distância máxima que você está disposto a percorrer?</p>
+                            
+                            <div class="flex flex-col space-y-2">
+                                <input type="range" min="1" max="20" value="5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-arq-green" id="distanceRange">
+                                <div class="flex justify-between">
+                                    <span class="text-sm text-gray-500">1km</span>
+                                    <span class="text-sm font-medium" id="distanceValue">5km</span>
+                                    <span class="text-sm text-gray-500">20km</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Botão de Enviar -->
+                        <div class="text-center">
+                            <button type="submit" class="bg-arq-red hover:bg-red-600 text-white font-nunito font-bold py-3 px-8 rounded-lg transition-colors shadow-lg">
+                                Salvar Preferências
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recomendação do Dia -->
+    <section id="recomendacao" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="font-nunito font-bold text-3xl md:text-4xl text-center mb-4">Recomendação do Dia</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-8">Descubra um novo lugar para explorar hoje:</p>
+            
+            <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/2 h-64 md:h-auto relative">
+                        <div class="absolute inset-0 bg-gradient-to-r from-arq-blue to-arq-blue/50 mix-blend-multiply"></div>
+                        <img src="https://images.unsplash.com/photo-1585255318859-f5c15f4cffe9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="MASP - Museu de Arte de São Paulo" class="w-full h-full object-cover">
+                        <div class="absolute bottom-4 left-4 bg-arq-red text-white px-3 py-1 rounded-full text-sm font-nunito font-bold">
+                            Modernismo
+                        </div>
+                    </div>
+                    <div class="p-6 md:p-8 md:w-1/2">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-full bg-arq-red flex items-center justify-center mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                </svg>
+                            </div>
+                            <h3 class="font-nunito font-bold text-xl">MASP - Museu de Arte de São Paulo</h3>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-4">
+                            Projetado pela arquiteta ítalo-brasileira Lina Bo Bardi, o MASP é um dos ícones arquitetônicos mais importantes de São Paulo. Seu vão livre de 74 metros é um marco da arquitetura modernista brasileira.
+                        </p>
+                        
+                        <div class="mb-4">
+                            <div class="flex items-center mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-arq-red mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                <span>Av. Paulista, 1578 - Bela Vista</span>
+                            </div>
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-arq-red mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <span>Terça a Domingo, 10h às 18h (Quinta até 20h)</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex space-x-3">
+                            <button class="bg-arq-blue hover:bg-blue-600 text-white font-nunito font-semibold py-2 px-4 rounded-lg transition-colors flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                                </svg>
+                                Ver no mapa
+                            </button>
+                            <button class="bg-arq-green hover:bg-green-600 text-white font-nunito font-semibold py-2 px-4 rounded-lg transition-colors flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                </svg>
+                                Adicionar à rota
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-arq-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-arq-red rounded-md flex items-center justify-center mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                        </div>
+                        <span class="font-nunito font-bold text-2xl">Urbia</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">Conectando pessoas à arquitetura e ao urbanismo de São Paulo de forma acessível, interativa e divertida.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="font-nunito font-bold text-lg mb-4">Navegação</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#inicio" class="text-gray-400 hover:text-white transition-colors">Inicio</a></li>
+                        <li><a href="#diferenciais" class="text-gray-400 hover:text-white transition-colors">Diferenciais</a></li>
+                        <li><a href="#aprenda" class="text-gray-400 hover:text-white transition-colors">Aprenda Jogando</a></li>
+                        <li><a href="#mapa" class="text-gray-400 hover:text-white transition-colors">Mapa Interativo</a></li>
+                        <li><a href="#preferencias" class="text-gray-400 hover:text-white transition-colors">Preferências</a></li>
+                        <li><a href="#recomendacao" class="text-gray-400 hover:text-white transition-colors">Recomendação</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-nunito font-bold text-lg mb-4">Contato</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-arq-red mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span class="text-gray-400">Av. Paulista, 1100 - São Paulo, SP</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-arq-red mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            <span class="text-gray-400">contato@urbia.edu.br</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-arq-red mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                            <span class="text-gray-400">(11) 3456-7890</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-nunito font-bold text-lg mb-4">Newsletter</h3>
+                    <p class="text-gray-400 mb-4">Receba novidades sobre arquitetura e eventos em São Paulo.</p>
+                    <form class="flex">
+                        <input type="email" placeholder="Seu e-mail" class="px-4 py-2 rounded-l-lg w-full focus:outline-none">
+                        <button type="submit" class="bg-arq-red hover:bg-red-600 text-white px-4 py-2 rounded-r-lg transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 Urbia - Faculdade de Arquitetura São Paulo. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
