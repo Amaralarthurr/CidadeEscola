@@ -2,135 +2,174 @@ html{
     scroll-behavior: smooth;
 }
 
+/* Estilos personalizados para o site ArqSP */
+
+/* Fontes */
 body {
-    font-family: 'Inter', sans-serif;
-}
-
-h1, h2, h3, h4, h5, h6, .font-nunito {
-    font-family: 'Nunito', sans-serif;
-}
-
-.tab-button {
+    font-family: "Inter", sans-serif;
+  }
+  
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .font-nunito {
+    font-family: "Nunito", sans-serif;
+  }
+  
+  /* Estilo para as tabs */
+  .tab-button {
     position: relative;
-    color: #6B7280;
+    color: #6b7280;
     transition: all 0.3s ease;
-}
-
-.tab-button.active {
-    color: #F44336;
-}
-
-.tab-button.active::after {
-    content: '';
+  }
+  
+  .tab-button.active {
+    color: #f44336;
+  }
+  
+  .tab-button.active::after {
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 3px;
-    background-color: #F44336;
-}
-
-.tab-content {
+    background-color: #f44336;
+  }
+  
+  /* Esconder conteúdo das tabs */
+  .tab-content {
     display: none;
-}
-
-.tab-content.active {
+  }
+  
+  .tab-content.active {
     display: block;
     animation: fadeIn 0.5s ease-out forwards;
-}
-
-/* Animações */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.transform {
+  }
+  
+  /* Animações */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .transform {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.transform:hover {
+  }
+  
+  .transform:hover {
     transform: translateY(-8px);
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-}
-
-input[type="range"] {
+  }
+  
+  /* Estilo para o range slider */
+  input[type="range"] {
     -webkit-appearance: none;
     height: 8px;
     border-radius: 5px;
     background: #e2e8f0;
     outline: none;
-}
-
-input[type="range"]::-webkit-slider-thumb {
+  }
+  
+  input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #92D050;
+    background: #92d050;
     cursor: pointer;
     border: 2px solid white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-input[type="range"]::-moz-range-thumb {
+  }
+  
+  input[type="range"]::-moz-range-thumb {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #92D050;
+    background: #92d050;
     cursor: pointer;
     border: 2px solid white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-input[type="checkbox"] {
-    accent-color: #F44336;
-}
-
-.card-hover {
+  }
+  
+  /* Estilo para checkbox personalizado */
+  input[type="checkbox"] {
+    accent-color: #f44336;
+  }
+  
+  /* Efeitos de hover nos cards */
+  .card-hover {
     transition: all 0.3s ease;
-}
-
-.card-hover:hover {
+  }
+  
+  .card-hover:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-}
-
-#map {
+  }
+  
+  /* Estilo para o mapa */
+  #map {
     border-radius: 0;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-.pulse {
+    z-index: 10; /* Garantir que o mapa tenha um z-index menor que o header */
+  }
+  
+  /* Adicionar ou modificar o estilo para o header */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100; /* Valor alto para garantir que fique acima de outros elementos */
+  }
+  
+  /* Animação para o botão de menu mobile */
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .pulse {
     animation: pulse 2s infinite;
-}
-
-video {
+  }
+  
+  /* Estilo para o vídeo de fundo */
+  video {
     object-fit: cover;
     width: 100%;
     height: 100%;
     position: absolute;
     top: 0;
     left: 0;
-}
-
-@media (max-width: 768px) {
+  }
+  
+  /* Responsividade para telas menores */
+  @media (max-width: 768px) {
     .container {
-        padding-left: 1rem;
-        padding-right: 1rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
     }
-    
+  
     h1 {
-        font-size: 2rem;
+      font-size: 2rem;
     }
-    
+  
     h2 {
-        font-size: 1.75rem;
+      font-size: 1.75rem;
     }
-}
+  }
+  
